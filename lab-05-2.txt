@@ -1,19 +1,24 @@
 import tensorflow.contrib.eager as tfe 
 tf.enable_eager_execution() 
 dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(len(x_train)) 
+
 W = tf.Variable(tf.zeros([2,1]), name='weight') 
 b = tf.Variable(tf.zeros([1]), name='bias') 
+#정규분포로부터의 난수값을 반환   
+
 def logistic_regression(features):   
      hypothesis  = tf.div(1., 1. + tf.exp(tf.matmul(features, W) + b))   
      return hypothesis 
 def loss_fn(hypothesis, labels):   
-     cost = -tf.reduce_mean(labels * tf.log(loss_fn(hypothesis) + (1 - labels) * tf.log(1 - hypothesis))   
+     cost = -tf.reduce_mean(labels * tf.log(loss_fn(hypothesis) + (1 - labels) * tf.log(1 - hypothesis))  
+     #reduce_mean은 평균을 만들어주는 부분 
      return cost 
 def grad(hypothesis, features, labels):   
      with tf.GradientTape() as tape:   
           loss_value = loss_fn(hypothesis,labels)   
      return tape.gradient(loss_value, [W,b]) 
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01) 
+#미분을 통해 최저 비용을 향해 진행하도록 만드는 핵심 함수 이때 rate를 전달했기 때문에 매번 0.01만큼씩 내려가게 됨
 for step in range(EPOCHS):   
     for features, labels  in tfe.Iterator(dataset):   
         grads = grad(logistic_regression(features), features, labels)   
@@ -23,5 +28,8 @@ for step in range(EPOCHS):
 def accuracy_fn(hypothesis, labels):   
      predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32)   
      accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, labels), dtype=tf.int32))   
+     #equal 함수로 예상값(predicted)과 실제값(Y)이 같은지 비교후 
+     #True/False 결과를 float32 로 cast 시키고 
+     #시행 전체의 평균을 reduce_mean 으로 구함 
      return accuracy 
 test_acc = accuracy_fn(logistic_regression(x_test),y_test)
