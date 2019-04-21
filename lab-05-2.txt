@@ -1,6 +1,8 @@
 import tensorflow.contrib.eager as tfe 
-tf.enable_eager_execution() 
+tf.enable_eager_execution()
+#그래프 기반 모드에서 즉시 실행 (Eager Execution) 모드로 변경
 dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(len(x_train)) 
+#tensor_slices로부터 데이터셋 생성
 
 W = tf.Variable(tf.zeros([2,1]), name='weight') 
 b = tf.Variable(tf.zeros([1]), name='bias') 
@@ -8,6 +10,7 @@ b = tf.Variable(tf.zeros([1]), name='bias')
 
 def logistic_regression(features):   
      hypothesis  = tf.div(1., 1. + tf.exp(tf.matmul(features, W) + b))   
+     #sigmoid를 사용하는 Hypothesis 정의
      return hypothesis 
 def loss_fn(hypothesis, labels):   
      cost = -tf.reduce_mean(labels * tf.log(loss_fn(hypothesis) + (1 - labels) * tf.log(1 - hypothesis))  
