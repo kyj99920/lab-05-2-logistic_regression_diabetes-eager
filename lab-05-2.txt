@@ -1,4 +1,6 @@
 import tensorflow.contrib.eager as tfe 
+#tfe 모듈은 즉시 실행 모드와 그래프 실행 모드 양쪽다 동작하는 다양한 기능들을 포함
+
 tf.enable_eager_execution()
 #그래프 기반 모드에서 즉시 실행 (Eager Execution) 모드로 변경
 dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(len(x_train)) 
