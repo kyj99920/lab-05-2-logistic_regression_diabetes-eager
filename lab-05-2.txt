@@ -36,3 +36,4 @@ def accuracy_fn(hypothesis, labels):
      #시행 전체의 평균을 reduce_mean 으로 구함 
      return accuracy 
 test_acc = accuracy_fn(logistic_regression(x_test),y_test)
+#test_acc 정의
